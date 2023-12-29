@@ -1,0 +1,48 @@
+* {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: monospace;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  background-color: green;
+}
+
+nav .title {
+  padding: 10px;
+  font-size: 2rem;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 2rem;
+  background-color: pink;
+  height: 100vh;
+}
+
+main .distnValue {
+  height: 10%;
+  display: flex;
+  align-items: center;
+}
+
+main .rocketShip {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-left: 100px
+}
+
+main .temp {
+  position: absolute;
+  top: 200px;
+  left: 50px;
+}
