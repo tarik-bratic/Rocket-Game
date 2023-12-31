@@ -1,16 +1,31 @@
 let destn_value = 250;
 let velocity_value = -25;
+let pressure = 25;
+let notPress = true;
 
-function updateGame(pressure) {
+setInterval(updateGame, 1000);
 
-  // user input
-  // let pressure = document.getElementById('gameInput').value;
+function updateGame() {
 
-  // // Error message
-  // if (pressure < 0 || pressure > 100) {
-  //   alert("Invalid pressure, 0 to 100");
-  //   return;
-  // }
+  console.log(pressure)
+
+  addEventListener("keydown", (event) => {
+    if (event.code == "KeyW") {
+      pressure += 10;
+      if (pressure > 100) pressure = 100;
+      if (pressure < 0) pressure = 0;
+      notPress = false;
+    }
+  });
+
+  addEventListener("keyup", (event) => {
+    notPress = true;
+  })
+
+  if (notPress) {
+    pressure =- 5;
+    if (pressure < 0) pressure = 0;
+  }
 
   //calculate destn and velocity
   destn_value = destn_value + velocity_value + (0.1 * pressure - 1.5) / 2;
@@ -34,17 +49,10 @@ function updateGame(pressure) {
 
 }
 
-function getPressure(currPressure) {
-  return currPressure + 1;
+function keyPress(flag = false) {
+  return flag;
 }
 
-let pressure = 25;
+// document.getElementById('gameBtn').addEventListener("click", myInterval);
 
-// document.getElementById('gameBtn').addEventListener("click", updateGame);
-addEventListener("keydown", (event) => {
-  if(event.code == "KeyW") {
-    updateGame(pressure);
-    pressure = getPressure(pressure);
-    console.log(event.code);
-  }
-})
+
