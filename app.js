@@ -1,31 +1,58 @@
-/* Global variables (Delete this) */
+/* Global variables */
 let destn_value = 250;
 let velocity_value = -25;
-let pressure = 25;
-let noContact = true;
+let pressure = 0;
 
+// Variables to store data
+let startY = 0;
+let endY = 0;
+let contact = false;
 const ship = document.querySelector("#rs");
 
-/* The game is ongoing (find other way) */
-setInterval(updateGameM, 1000);
+/* The game is ongoing */
+setInterval(updateGameMobile, 1000);
 
-function updateGameM() {
+function updateGameMobile() {
 
-  //When the finger is moving around, increase pressure +1
-  ship.addEventListener("touchmove", (event) => {
-    noContact = false;
-    pressure++;
-    if (pressure > 100) {
-      pressure = 100;
+  /* When first contact happens */
+  ship.addEventListener("touchstart", (event) => {
+
+    contact = true;
+    let touch = event.touches[0];
+
+    /* Prevent bounce effect */
+    if (touch.clientY != startY) {
+      startY = touch.clientY;
+      endY = startY - 400;              // Set an interval
+      console.log(touch.clientY);
     }
-  });
-
-  ship.addEventListener("touchend", (event) => {
-    noContact = true;
+    
   })
 
-  if (noContact) {
-    pressure = decreasePressure(pressure);
+  /* Increase or decrease pressure */
+  ship.addEventListener("touchmove", (event) => {
+    
+    contact = true;
+    let touch = event.touches[0];
+
+    /* Prevent bounce effect */
+    if (touch.clientY != startY) {
+      startY = touch.clientY;
+      pressure = (endY / startY) * 100; // pressure -> 0 - 100 (0.0 - 1.0)
+    }
+
+    pressureInbound(pressure);
+
+  });
+
+  /* When contact breaks */
+  ship.addEventListener("touchend", (event) => {
+    contact = false;
+  })
+
+  /* When there is no contact */
+  if (!contact) {
+    pressure = 0;
   }
 
   /* Calculate new values */
@@ -41,15 +68,6 @@ function updateGameM() {
 
 }
 
-function decreasePressure(pressure) {
-  pressure -= 1;
-  if (pressure < 0) {
-    pressure = 0;
-  }
-
-  return pressure;
-}
-
 /* Rules of the game (conditions) */
 function checkGameCondition(destn, velo) {
   if (destn <= 0) {
@@ -62,8 +80,20 @@ function checkGameCondition(destn, velo) {
   }
 }
 
+/* Reset the game to previous values */
 function resetGame() {
   destn_value = 250;
   velocity_value = -25;
-  pressure = 25;
+  pressure = 0;
+}
+
+/**
+ * Checks wheter pressure is inbound.
+ * @param {*} p Pressure
+ */
+function pressureInbound(p) {
+
+  if (p > 100) p = 100;
+  if (p < 0) p = 0;
+
 }
