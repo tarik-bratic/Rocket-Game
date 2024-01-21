@@ -1,5 +1,5 @@
 /* Global variables */
-let destn_value = 250;
+let destn_value = 1000;
 let velocity_value = -25;
 let pressure = 0;
 
@@ -10,7 +10,7 @@ let contact = false;
 const ship = document.querySelector("#rs");
 
 /* The game is ongoing */
-setInterval(updateGameMobile, 1000);
+setInterval(updateGameMobile, 200);
 
 function updateGameMobile() {
 
@@ -82,7 +82,7 @@ function checkGameCondition(destn, velo) {
 
 /* Reset the game to previous values */
 function resetGame() {
-  destn_value = 250;
+  destn_value = 1000;
   velocity_value = -25;
   pressure = 0;
 }
